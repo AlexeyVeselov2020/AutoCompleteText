@@ -51,13 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TextGenerator_Tests.cs" />
-    <Compile Include="FrequencyAnalysis_Tests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TextGenerator_Tests.cs" />
+    <Compile Include="FrequencyAnalysis_Tests.cs" />
     <Compile Include="FrequencyAnalysisTask.cs" />
     <Compile Include="TextGeneratorTask.cs" />
     <Compile Include="SentencesParser_Tests.cs" />
@@ -68,12 +68,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HarryPotterText.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HarryPotterText.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,35 +11,42 @@ namespace TextAnalysis
             string phraseBeginning,
             int wordsCount)
         {
-            StringBuilder newstr = new StringBuilder();
-            string[] words = phraseBeginning.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (words.Length>1)
+            StringBuilder newstr = new StringBuilder(phraseBeginning);
+            List<string> words = new List<string>(phraseBeginning.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            while (wordsCount > 0)
             {
-                if (nextWords.ContainsKey(phraseBeginning))
+                if (words.Count > 1)
                 {
-                    newstr.AppendFormat("{0} {1}", phraseBeginning, nextWords[phraseBeginning]);
-                    phraseBeginning = ContinuePhrase(nextWords, newstr.ToString(), wordsCount - 1);
-                }
-                else
-                    if (nextWords.ContainsKey(words[1]))
+                    var str = String.Format("{0} {1}", words[words.Count - 2], words[words.Count - 1]);
+                    if (nextWords.ContainsKey(str))
                     {
-                        newstr.AppendFormat("{0} {1}", phraseBeginning, nextWords[words[words.Length-1]]);
-                        phraseBeginning = ContinuePhrase(nextWords, words[words.Length - 1], wordsCount - 1);
+                        newstr.AppendFormat(" {0}", nextWords[str]);
+                        words.Add(nextWords[str]);
+                        wordsCount--;
                     }
-                else
-                    return phraseBeginning;
-            }
-            else
-            {
-                if (nextWords.ContainsKey(words[1]))
-                {
-                    newstr.AppendFormat("{0} {1}", phraseBeginning, nextWords[words[words.Length - 1]]);
-                    phraseBeginning = ContinuePhrase(nextWords, words[words.Length - 1], wordsCount - 1);
+                    else
+                    if (nextWords.ContainsKey(words[words.Count - 1]))
+                    {
+                        newstr.AppendFormat(" {0}", nextWords[words[words.Count - 1]]);
+                        words.Add(nextWords[words[words.Count - 1]]);
+                        wordsCount--;
+                    }
+                    else
+                        break;
                 }
                 else
-                    return phraseBeginning;
+                {
+                    if (nextWords.ContainsKey(words[words.Count - 1]))
+                    {
+                        newstr.AppendFormat(" {0}", nextWords[words[words.Count - 1]]);
+                        words.Add(nextWords[words[words.Count - 1]]);
+                        wordsCount--;
+                    }
+                    else
+                        break;
+                }
             }
-            return phraseBeginning;
+            return newstr.ToString();
         }
     }
 }
